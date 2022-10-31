@@ -3,8 +3,6 @@ from configs.database import engine
 
 Base = declarative_base()
 
-from entities.user import User
-
 
 async def init_models():
     async with engine.begin() as conn:

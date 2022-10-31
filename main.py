@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from entities.base import init_models
+from entities.user import User
 import asyncio
 from routers.v1.index_router import index_router
 from routers.v1.user_router import user_router
