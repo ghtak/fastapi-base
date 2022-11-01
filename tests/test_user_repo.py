@@ -2,6 +2,7 @@ from configs.database import get_session
 from fastapi import Depends
 from entities.base import init_models
 from entities.user import User
+from entities.user_image import UserImage
 from repositories.user_repository import UserRepository
 from test_setup import run_test
 
