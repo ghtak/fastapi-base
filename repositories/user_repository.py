@@ -3,7 +3,7 @@ from configs.database import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from entities.user import User
-from typing import List
+from typing import List, Optional
 
 
 class UserRepository:
@@ -32,3 +32,8 @@ class UserRepository:
         await self.async_session.execute(
             delete(User).where(User.id == user_id))
         await self.async_session.commit()
+
+    async def get(self, user_id: int) -> Optional[User]:
+        result = await self.async_session.execute(
+            select(User).where(User.id == user_id))
+        return result.scalars().first()

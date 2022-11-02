@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload, defer
 from entities.user_image import UserImage
-from typing import Optional
+from typing import Optional, List
 
 
 class UserImageRepository:
@@ -13,20 +13,25 @@ class UserImageRepository:
                  async_session: AsyncSession = Depends(get_session)):
         self.async_session = async_session
 
-    async def images(self, user_id: Optional[int] = None):
+    async def images(self, user_id: Optional[int] = None) -> List[UserImage]:
         query = select(UserImage)
         if user_id:
             query = query.where(UserImage.user_id == user_id)
 
-        result = await self.session.execute(query)
+        result = await self.async_session.execute(query)
         return result.scalars().all()
 
-    async def images_ids(self, user_id: Optional[int] = None):
+    async def images_ids(self, user_id: Optional[int] = None) -> List[UserImage]:
         query = select(UserImage).options(
             selectinload(UserImage.user),
             defer('image'))
         if user_id:
             query = query.where(UserImage.user_id == user_id)
 
-        result = await self.session.execute(query)
+        result = await self.async_session.execute(query)
         return result.scalars().all()
+
+    async def create(self, user_image: UserImage):
+        self.async_session.add(user_image)
+        await self.async_session.commit()
+        await self.async_session.refresh(user_image)
