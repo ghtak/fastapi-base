@@ -1,9 +1,15 @@
 from fastapi import Depends
 from configs.database import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, delete
+from sqlalchemy import (
+    select,
+    delete
+)
+from typing import (
+    Optional,
+    List
+)
 from entities.user import User
-from typing import List, Optional
 
 
 class UserRepository:

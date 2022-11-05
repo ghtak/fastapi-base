@@ -1,10 +1,19 @@
 from fastapi import Depends
 from configs.database import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-from sqlalchemy.orm import selectinload, defer
+from sqlalchemy import (
+    select,
+    delete
+)
+from sqlalchemy.orm import (
+    selectinload,
+    defer
+)
+from typing import (
+    Optional,
+    List
+)
 from entities.user_image import UserImage
-from typing import Optional, List
 
 
 class UserImageRepository:
@@ -35,3 +44,8 @@ class UserImageRepository:
         self.async_session.add(user_image)
         await self.async_session.commit()
         await self.async_session.refresh(user_image)
+
+    async def delete(self, user_image_id):
+        await self.async_session.execute(
+            delete(UserImage).where(UserImage.id == user_image_id))
+        await self.async_session.commit()

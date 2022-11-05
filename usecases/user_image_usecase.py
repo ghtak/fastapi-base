@@ -36,3 +36,6 @@ class UserImageUsecase:
                 user_id=user_id,
                 image=image.tobytes()  # marshal.dumps()
             ))
+
+    async def delete(self, user_image_id):
+        return await self.user_image_repo.delete(user_image_id)

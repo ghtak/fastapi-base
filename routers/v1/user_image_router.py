@@ -32,3 +32,12 @@ async def create(
         user_image_usecase: UserImageUsecase = Depends()
 ):
     return await user_image_usecase.create(user_id, user_image_dto)
+
+
+@user_image_router.delete('/{user_image_id}',
+                          status_code=status.HTTP_204_NO_CONTENT)
+async def delete(
+        user_image_id: int,
+        user_image_usecase: UserImageUsecase = Depends()
+):
+    return await user_image_usecase.delete(user_image_id)
