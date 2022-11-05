@@ -9,9 +9,11 @@ from dtos.user_dto import (
     UserDto
 )
 from usecases.user_usecase import UserUsecase
+from usecases.token import verify
 
 user_router = APIRouter(
-    prefix='/v1/user'
+    prefix='/v1/user',
+    dependencies=[Depends(verify)]
 )
 
 
